@@ -1,18 +1,44 @@
 import { useEffect, useState } from 'react';
 import styles from './App.module.css';
 
+const PRODUCTS_MOCK = [
+	{
+		id: '001',
+		name: 'Телевизор',
+		price: 39900,
+	},
+	{
+		id: '002',
+		name: 'Смартфон',
+		price: 18900,
+	},
+	{
+		id: '003',
+		name: 'Фен',
+		price: 1749,
+	},
+];
+
 export const App = () => {
-	const [counter, setCounter] = useState(0);
+	const [products, setProducts] = useState([]);
 
 	useEffect(() => {
-		console.log('Первый -', counter);
-
-		return () => console.log('Второй -', counter);
-	}, [counter]);
+		new Promise((resolve) => {
+			resolve({ json: () => PRODUCTS_MOCK });
+		})
+			.then((loadedData) => loadedData.json())
+			.then((loadedProducts) => {
+				setProducts(loadedProducts);
+			});
+	}, []);
 
 	return (
 		<div className={styles.App}>
-			<button onClick={() => setCounter(counter + 1)}>+ 1</button>
+			{products.map(({ id, name, price }) => (
+				<div key={id}>
+					{name} - {price} руб
+				</div>
+			))}
 		</div>
 	);
 };
