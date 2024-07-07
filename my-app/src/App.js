@@ -2,23 +2,17 @@ import { useEffect, useState } from 'react';
 import styles from './App.module.css';
 
 export const App = () => {
-	const [products, setProducts] = useState([]);
+	const [counter, setCounter] = useState(0);
 
 	useEffect(() => {
-		fetch('https://mocki.io/v1/28454519-5809-41e6-8751-03d2a479fdd8')
-			.then((loadedData) => loadedData.json())
-			.then((loadedProducts) => {
-				setProducts(loadedProducts);
-			});
-	}, []);
+		console.log('Первый -', counter);
+
+		return () => console.log('Второй -', counter);
+	}, [counter]);
 
 	return (
 		<div className={styles.App}>
-			{products.map(({ id, name, price }) => (
-				<div кеу={id}>
-					{name} - {price} руб{' '}
-				</div>
-			))}
+			<button onClick={() => setCounter(counter + 1)}>+ 1</button>
 		</div>
 	);
 };
