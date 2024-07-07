@@ -21,26 +21,34 @@ const PRODUCTS_MOCK = [
 
 export const App = () => {
 	const [products, setProducts] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
+		setIsLoading(true);
+
 		new Promise((resolve) => {
 			setTimeout(() => {
 				resolve({ json: () => PRODUCTS_MOCK });
-			}, 2000);
+			}, 5000);
 		})
 			.then((loadedData) => loadedData.json())
 			.then((loadedProducts) => {
 				setProducts(loadedProducts);
-			});
+			})
+			.finally(() => setIsLoading(false));
 	}, []);
 
 	return (
 		<div className={styles.App}>
-			{products.map(({ id, name, price }) => (
-				<div key={id}>
-					{name} - {price} руб
-				</div>
-			))}
+			{isLoading ? (
+				<div className={styles.loader}></div>
+			) : (
+				products.map(({ id, name, price }) => (
+					<div key={id}>
+						{name} - {price} руб
+					</div>
+				))
+			)}
 		</div>
 	);
 };
