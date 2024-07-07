@@ -24,7 +24,9 @@ export const App = () => {
 
 	useEffect(() => {
 		new Promise((resolve) => {
-			resolve({ json: () => PRODUCTS_MOCK });
+			setTimeout(() => {
+				resolve({ json: () => PRODUCTS_MOCK });
+			}, 2000);
 		})
 			.then((loadedData) => loadedData.json())
 			.then((loadedProducts) => {
