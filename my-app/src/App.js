@@ -1,24 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './App.module.css';
 
-const PRODUCTS_MOCK = [
-	{
-		id: '001',
-		name: 'Телевизор',
-		price: 39900,
-	},
-	{
-		id: '002',
-		name: 'Смартфон',
-		price: 18900,
-	},
-	{
-		id: '003',
-		name: 'Фен',
-		price: 1749,
-	},
-];
-
 export const App = () => {
 	const [products, setProducts] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
@@ -26,11 +8,7 @@ export const App = () => {
 	useEffect(() => {
 		setIsLoading(true);
 
-		new Promise((resolve) => {
-			setTimeout(() => {
-				resolve({ json: () => PRODUCTS_MOCK });
-			}, 5000);
-		})
+		fetch('http://localhost:3005/product')
 			.then((loadedData) => loadedData.json())
 			.then((loadedProducts) => {
 				setProducts(loadedProducts);
