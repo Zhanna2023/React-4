@@ -6,35 +6,33 @@ export const App = () => {
 	const [refreshProducts, setRefreshProducts] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isCreating, setIsCreating] = useState(false);
+	const [isUpdating, setIsUpdating] = useState(false);
 
 	useEffect(() => {
-		setIsLoading(true);
-
-		fetch('http://localhost:3005/products')
-			.then((loadedData) => loadedData.json())
-			.then((loadedProducts) => {
-				setProducts(loadedProducts);
-			})
-			.finally(() => setIsLoading(false));
+		/* ... */
 	}, [refreshProducts]);
 
 	const requestAddVacuumCleaner = () => {
-		setIsCreating(true);
+		/* ... */
+	};
 
-		fetch('http://localhost:3005/products', {
-			method: 'POST',
+	const requestUpdateSmartphone = () => {
+		setIsUpdating(true);
+
+		fetch('http://localhost:3005/products/002', {
+			method: 'PUT',
 			headers: { 'Content-Type': 'application/json;charset=utf-8' },
 			body: JSON.stringify({
-				name: 'Пылесос',
-				price: 4690,
+				name: 'Смартфон',
+				price: 17900,
 			}),
 		})
 			.then((rawResponse) => rawResponse.json())
 			.then((response) => {
-				console.log('Пылесос добавлен, ответ сервера:', response);
+				console.log('Смартфон обновлён, ответ сервера:', response);
 				setRefreshProducts(!refreshProducts);
 			})
-			.finally(() => setIsCreating(false));
+			.finally(() => setIsUpdating(false));
 	};
 
 	return (
@@ -50,6 +48,9 @@ export const App = () => {
 			)}
 			<button disabled={isCreating} onClick={requestAddVacuumCleaner}>
 				Добавить пылесос
+			</button>
+			<button disabled={isUpdating} onClick={requestUpdateSmartphone}>
+				Обновить смартфон
 			</button>
 		</div>
 	);
